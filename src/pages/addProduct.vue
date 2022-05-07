@@ -1,59 +1,52 @@
 <template>
-  <section class="whole">
+  <section class="whol">
     <div class="head-div">
       <div class="heading">
         <h1>Product Add</h1>
         <div class="btns">
-          <button type="button" form="product-form" tabindex="0">Save</button>
-          <button type="submit" form="product-form">Cancel</button>
+          <button type="submit" form="product-form">Save</button>
+          <button type="reset" form="product-form">Cancel</button>
         </div>
       </div>
       <hr />
     </div>
-    <form id="product-form" @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="sku">SKU </label>
-        <input
-          required
-          type="text"
-          class="form-control"
-          id="sku"
-          v-model.trim="sku"
-        />
-      </div>
-      <div class="form-group">
-        <label for="name">Name </label>
-        <input
-          required
-          type="text"
-          class="form-control"
-          id="name"
-          v-model.trim="name"
-        />
-      </div>
-      <div class="form-group">
-        <label for="price">Price ($) </label>
-        <input
-          required
-          type="number"
-          class="form-control"
-          id="price"
-          v-model.trim="price"
-        />
-      </div>
-      <div class="form-group">
-        <label for="typeSwitcher">Type Switcher </label>
-        <select name="products" id="productType" v-model.trim="optSel">
-          <option value="">Choose Province</option>
-          <option value="DVD" id="DVD">DVD</option>
-          <option value="Furniture" id="Furniture">Furniture</option>
-          <option value="Book" id="Book">Book</option>
-        </select>
+    <div class="prod-form">
+      <form id="product-form" @submit.prevent="onSubmit">
+        <div class="form-group">
+          <label for="sku">SKU </label>
+          <input type="text" class="form-control" id="sku" v-model.trim="sku" />
+        </div>
+        <div class="form-group">
+          <label for="name">Name </label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            v-model.trim="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="price">Price ($) </label>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            v-model.trim="price"
+          />
+        </div>
+        <div class="form-group">
+          <label for="typeSwitcher">Type Switcher </label>
+          <select name="products" id="productType" v-model.trim="optSel">
+            <option style="color: gray" value="" disabled>Type Switcher</option>
+            <option value="DVD" id="DVD">DVD</option>
+            <option value="Furniture" id="Furniture">Furniture</option>
+            <option value="Book" id="Book">Book</option>
+          </select>
+        </div>
         <div class="opt" v-if="optSel == 'DVD'">
           <div class="form-group">
             <label for="size">Size (MB) </label>
             <input
-              required
               type="number"
               class="form-control"
               id="size"
@@ -66,25 +59,24 @@
           <div class="form-group">
             <label for="height">Height (CM) </label>
             <input
-              required
               type="number"
               class="form-control"
               id="height"
               v-model.trim="height"
             />
-            <br />
+          </div>
+          <div class="form-group">
             <label for="width">Width (CM) </label>
             <input
-              required
               type="number"
               class="form-control"
               id="width"
               v-model.trim="width"
             />
-            <br />
+          </div>
+          <div class="form-group">
             <label for="Length">Length (CM) </label>
             <input
-              required
               type="number"
               class="form-control"
               id="length"
@@ -93,30 +85,29 @@
           </div>
           <h4>Please provide furniture dimensions in HxWxL(CM) format</h4>
         </div>
-        <div class="opt" v-if="optSel == 'Book'">
+        <div class="opt" v-if="optSel === 'Book'">
           <div class="form-group">
             <label for="weight">Weight (KG) </label>
             <input
-              required
               type="number"
               class="form-control"
               id="weight"
               v-model.trim="weight"
             />
           </div>
-          <h4>Please provide weight in KG</h4>
+          <h4>Please provide book's weight in KG</h4>
         </div>
-      </div>
-      <input required type="submit" id="submit-form" style="display: none" />
-    </form>
+        <input type="submit" id="submit-form" style="display: none" />
+      </form>
+    </div>
     <dyn-form></dyn-form>
   </section>
 </template>
 
 <script>
-import DynForm from "@/components/dynForm.vue";
+// import DynForm from "@/components/dynForm.vue";
 export default {
-  components: { DynForm },
+  // components: { DynForm },
   data() {
     return {
       sku: null,
@@ -138,7 +129,7 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.optsel);
-      if (this.optSel == "DVD") {
+      if (this.optSel === "DVD") {
         this.type = "Size: ";
         this.value = this.size + " MB";
       } else if (this.optSel === "Furniture") {
@@ -171,7 +162,11 @@ export default {
 </script>
 
 <style scoped>
-.whole {
+* {
+  margin: 0;
+  padding: 0;
+}
+.whol {
   display: flex;
   flex-direction: column;
 }
@@ -183,8 +178,11 @@ export default {
   margin: 1rem;
   padding-right: 4rem;
 }
+.head-div {
+  width: 80vw;
+  margin: auto;
+}
 hr {
-  width: 95%;
   margin: auto;
 }
 .btns {
@@ -204,11 +202,44 @@ button {
   border-radius: 15px;
   cursor: pointer;
 }
-/* input required[type="number"]::-webkit-inner-spin-button,
-input required[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0;
-} */
+button:hover {
+  background: #000;
+  color: #fff;
+}
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.form-group label {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.form-group input {
+  width: 10rem;
+  height: 2rem;
+  border-radius: 15px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+}
+
+.form-group select {
+  width: 12rem;
+  height: 2rem;
+  border-radius: 15px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+}
+.prod-form {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: right;
+  margin-top: 3rem;
+  margin-left: 8rem;
+  width: 25rem;
+}
 </style>

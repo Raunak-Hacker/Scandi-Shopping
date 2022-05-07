@@ -1,9 +1,12 @@
 <template>
-  <!-- <h1>hello</h1> -->
-  <add-product @prod-info="getInfo"></add-product>
-  <div class="boxes">
+  <!-- <add-product @prod-info="getInfo"></add-product> -->
+  <h1>hell</h1>
+  <button @click="addClick">add</button>
+  <button @click="massDelete">Del</button>
+  <!-- <router-link to="/product-list"> Product List </router-link> -->
+  <div class="box-grid">
     <dynprod
-      v-for="box in boxes"
+      v-for="box in boxess"
       :key="box.id"
       :sku="box.sku"
       :name="box.name"
@@ -16,50 +19,57 @@
 
 <script>
 import dynprod from "@/components/DynProd.vue";
-import AddProduct from "./addProduct.vue";
 export default {
-  components: { dynprod, AddProduct },
+  props: {
+    boxes: {
+      type: Array,
+      required: true,
+    },
+  },
+  components: {
+    dynprod,
+  },
+
   data() {
     return {
-      boxes: [
-        {
-          id: 1,
-          sku: "12345",
-          name: "Product 1",
-          price: "100",
-          optSel: "DVD",
-        },
-      ],
+      // mySelections: [],
+      boxess: [],
     };
   },
-  methods: {
-    getInfo(sku, name, price, type, value) {
-      const box = {
-        sku: sku + 'a',
-        name: name,
-        price: price,
-        type: type,
-        value: value,
-      };
-      this.boxes.push(box);
-      console.log(sku, name, price, type, value);
-    },
-    // inject: ['boxes'],
+  created() {
+    this.boxess = this.boxes;
   },
-  mounted() {
-    setTimeout(() => {
-      this.boxes.push({
-        id: "events",
-        sku: "Erevents",
-        name: "Events are important in Vue",
+  methods: {
+    addClick() {
+      this.$emit("add-click");
+    },
+    massDelete() {
+      this.boxes.forEach((box) => {
+        if (box.check) {
+          this.boxess.splice(this.boxess.indexOf(box), 1);
+        }
       });
-    }, 1000);
+    },
   },
 };
+// inject: ["boxes"],
+// created() {
+//   Event.$on("prod-info", (sku, name, price, type, value) => {
+//     console.log(sku, name, price, type, value);
+//   });
+// },
+// const box = {
+//   sku: sku,
+//   name: name,
+//   price: price,
+//   type: type,
+//   value: value,
+// };
+// this.boxes.push(box);
 </script>
 
 <style>
-.boxes {
+.box-grid {
   display: flex;
   flex-wrap: wrap;
   margin-left: 6rem;

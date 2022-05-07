@@ -1,6 +1,6 @@
 <template>
   <div class="productBox">
-    <input type="checkbox" class="delete-checkbox" />
+    <input type="checkbox" class="delete-checkbox" value="false" id="check" v-model="check" />
     <div class="box-info">
       <div class="box-sku">
         <p>{{ sku }}</p>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  props: ["id", "sku", "name", "price", "type", "value"],
+  props: [ "sku", "name", "price", "type", "value"],
 };
 </script>
 
@@ -31,6 +31,8 @@ export default {
 .delete-checkbox {
   display: inline-box;
   margin: 1rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .productBox {
@@ -45,6 +47,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 8rem;
+  height: 7rem;
 }
 </style>
