@@ -1,6 +1,12 @@
 <template>
   <div class="productBox">
-    <input type="checkbox" class="delete-checkbox" value="false" id="check" v-model="check" />
+    <input
+      type="checkbox"
+      class="delete-checkbox"
+      name="check"
+      id="check"
+      v-model="checkin"
+    />
     <div class="box-info">
       <div class="box-sku">
         <p>{{ sku }}</p>
@@ -20,7 +26,13 @@
 
 <script>
 export default {
-  props: [ "sku", "name", "price", "type", "value"],
+  props: ["sku", "name", "price", "type", "value"],
+  data() {
+    return {
+      checkin: false,
+    };
+  },
+
 };
 </script>
 

@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <add-product @prod-info="getInfo" v-if="onAddProducts" />
-    <product-list v-if="!onAddProducts" :boxes="this.boxes" @addClick="addClick" />
-  </div>
+  <!-- <the-header @add-click="addClick" @save-click="onSubmit" /> -->
+  <add-product @prod-info="getInfo" v-if="onAddProducts" />
+  <product-list
+    v-if="!onAddProducts"
+    :boxes="this.boxes"
+    @addClick="addClick"
+  />
 </template>
 
 <script>
@@ -11,6 +14,7 @@ import addProduct from "./pages/addProduct.vue";
 // import DynForm from "@/components/dynForm.vue";
 export default {
   components: { addProduct },
+  // props: ["onSubmit"],
   data() {
     return {
       boxes: [],
@@ -18,8 +22,33 @@ export default {
     };
   },
   methods: {
+    // onSubmitt() {
+    //   this.onAddProducts = false;
+    // },
+    onSubmit() {
+      console.log(this.optsel);
+      if (this.optSel === "DVD") {
+        this.type = "Size: ";
+        this.value = this.size + " MB";
+      } else if (this.optSel === "Furniture") {
+        this.type = "Dimensions: ";
+        this.value = this.height + "x" + this.width + "x" + this.length;
+      } else if (this.optSel === "Book") {
+        this.type = "Weight: ";
+        this.value = this.weight + "KG";
+      }
+      this.$emit(
+        "prod-info",
+        this.sku,
+        this.name,
+        this.price + " $",
+        this.type,
+        this.value
+      );
+    },
     getInfo(sku, name, price, type, value) {
       const box = {
+        id: this.boxes.length + 1,
         sku: sku,
         name: name,
         price: price,
@@ -30,8 +59,14 @@ export default {
       console.log(sku, name, price, type, value);
       this.onAddProducts = false;
     },
+    onSave() {
+      this.$emit("onSubmit");
+    },
     addClick() {
-      this.onAddProducts = true;
+      this.onAddProducts = !this.onAddProducts;
+      console.log("hello");
+      this.save = false;
+      this.cancel = false;
     },
   },
 };

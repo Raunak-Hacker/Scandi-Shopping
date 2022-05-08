@@ -1,15 +1,6 @@
 <template>
+  <the-header @add-click="addClick" @save-click="onSubmit" :heading="this.heading" />
   <section class="whol">
-    <div class="head-div">
-      <div class="heading">
-        <h1>Product Add</h1>
-        <div class="btns">
-          <button type="submit" form="product-form">Save</button>
-          <button type="reset" form="product-form">Cancel</button>
-        </div>
-      </div>
-      <hr />
-    </div>
     <div class="prod-form">
       <form id="product-form" @submit.prevent="onSubmit">
         <div class="form-group">
@@ -124,6 +115,7 @@ export default {
       optSel: "",
       type: null,
       value: null,
+      heading: "Product Add"
     };
   },
   methods: {
@@ -147,15 +139,6 @@ export default {
         this.type,
         this.value
       );
-      // this.sku = null;
-      // this.name = null;
-      // this.price = null;
-      // this.optSel = "";
-      // this.weight = null;
-      // this.size = null;
-      // this.height = null;
-      // this.width = null;
-      // this.length = null;
     },
   },
 };
@@ -170,42 +153,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* margin-bottom: 20px; */
-  margin: 1rem;
-  padding-right: 4rem;
-}
-.head-div {
-  width: 80vw;
-  margin: auto;
-}
-hr {
-  margin: auto;
-}
-.btns {
-  width: 10rem;
-  /* height: 10rem; */
-  display: flex;
-  justify-content: space-between;
-}
-button {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: none;
-  background: #f1f1f1;
-  color: #000;
-  border-radius: 15px;
-  cursor: pointer;
-}
-button:hover {
-  background: #000;
-  color: #fff;
-}
+
 .form-group {
   margin-bottom: 1rem;
   display: flex;
