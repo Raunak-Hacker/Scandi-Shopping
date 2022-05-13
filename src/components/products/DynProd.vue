@@ -5,7 +5,7 @@
       class="delete-checkbox"
       name="check"
       id="check"
-      v-model="checkin"
+      @click="check"
     />
     <div class="box-info">
       <div class="box-sku">
@@ -27,12 +27,11 @@
 <script>
 export default {
   props: ["sku", "name", "price", "type", "value"],
-  data() {
-    return {
-      checkin: false,
-    };
+  methods: {
+    check() {
+      this.$emit("check", this);
+    },
   },
-
 };
 </script>
 

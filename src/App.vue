@@ -1,50 +1,54 @@
 <template>
-  <!-- <the-header @add-click="addClick" @save-click="onSubmit" /> -->
-  <add-product @prod-info="getInfo" v-if="onAddProducts" />
-  <product-list
-    v-if="!onAddProducts"
-    :boxes="this.boxes"
-    @addClick="addClick"
-  />
+  <the-header :heading="heading">
+    <button ref="submit" form="product-form" @click="saveClick" v-if="state">
+      Save
+    </button>
+    <button @click="addClick" v-else>add</button>
+    <button type="reset" form="product-form" v-if="state">Cancel</button>
+    <button @click="multiBoxDelete" v-else>Mass Delete</button>
+  </the-header>
+  <main>
+    <add-product @prod-info="getInfo" v-if="onAddProducts"> </add-product>
+    <product-list v-else>
+      <div class="box-grid">
+        <dyn-prod
+          v-for="box in boxes"
+          :key="box.id"
+          :id="box.id"
+          :sku="box.sku"
+          :name="box.name"
+          :price="box.price"
+          :type="box.type"
+          :value="box.value"
+          @check="check(box)"
+        />
+      </div>
+    </product-list>
+  </main>
 </template>
 
 <script>
-import addProduct from "./pages/addProduct.vue";
-// import { computed } from "vue";
-// import DynForm from "@/components/dynForm.vue";
 export default {
-  components: { addProduct },
-  // props: ["onSubmit"],
   data() {
     return {
       boxes: [],
-      onAddProducts: true,
+      mySelections: [],
+      onAddProducts: false,
+      state: false,
+      heading: "Product List",
     };
   },
   methods: {
-    // onSubmitt() {
-    //   this.onAddProducts = false;
-    // },
-    onSubmit() {
-      console.log(this.optsel);
-      if (this.optSel === "DVD") {
-        this.type = "Size: ";
-        this.value = this.size + " MB";
-      } else if (this.optSel === "Furniture") {
-        this.type = "Dimensions: ";
-        this.value = this.height + "x" + this.width + "x" + this.length;
-      } else if (this.optSel === "Book") {
-        this.type = "Weight: ";
-        this.value = this.weight + "KG";
-      }
-      this.$emit(
-        "prod-info",
-        this.sku,
-        this.name,
-        this.price + " $",
-        this.type,
-        this.value
-      );
+    addClick() {
+      this.state = true;
+      this.onAddProducts = true;
+      this.heading = "Add Product";
+    },
+    saveClick() {
+      this.state = false;
+      console.log("save");
+      this.heading = "Product List";
+      this.$refs.submit.click();
     },
     getInfo(sku, name, price, type, value) {
       const box = {
@@ -56,88 +60,25 @@ export default {
         value: value,
       };
       this.boxes.push(box);
-      console.log(sku, name, price, type, value);
-      this.onAddProducts = false;
-    },
-    onSave() {
-      this.$emit("onSubmit");
-    },
-    addClick() {
       this.onAddProducts = !this.onAddProducts;
-      console.log("hello");
-      this.save = false;
-      this.cancel = false;
+    },
+    check(box) {
+      if (
+        !this.mySelections.length ||
+        !this.mySelections.find((f) => box.id == f.id)
+      ) {
+        this.mySelections.push(box);
+      } else {
+        this.mySelections = this.mySelections.filter((f) => box.id != f.id);
+      }
+    },
+    multiBoxDelete() {
+      this.boxes = this.boxes.filter((a) => !this.mySelections.includes(a));
+      this.mySelections = [];
+      console.log(this.boxes);
     },
   },
 };
-// components: { DynForm },
-// props: {},
-// data() {
-//   return {
-//     sku: null,
-//     name: null,
-//     price: null,
-//     size: null,
-//     height: null,
-//     width: null,
-//     length: null,
-//     weight: null,
-//     divASelected: false,
-//     divFurniture: false,
-//     divBook: false,
-//     optSel: "",
-//     type: null,
-//     value: null,
-//     boxes: [
-//       {
-//         id: 1,
-//         sku: this.sku,
-//         name: this.name,
-//         price: this.price + " $",
-//         type: this.type,
-//         value: this.value,
-//       },
-//     ],
-//   };
-// },
-// provide() {
-//   return {
-//     boxes: [
-//       {
-//         id: computed(() => this.boxes[0].id),
-//         sku: computed(() => this.sku),
-//         name: computed(() => this.name),
-//         price: computed(() => this.price + " $"),
-//         type: this.type,
-//         value: this.value,
-//       },
-//     ],
-//   };
-// },
-// methods: {
-//   onSubmit() {
-//     console.log(this.optsel);
-//     if (this.optSel === "DVD") {
-//       this.type = "Size: ";
-//       this.value = this.size + " MB";
-//     } else if (this.optSel === "Furniture") {
-//       this.type = "Dimensions: ";
-//       this.value = this.height + "x" + this.width + "x" + this.length;
-//     } else if (this.optSel === "Book") {
-//       this.type = "Weight: ";
-//       this.value = this.weight + "KG";
-//     }
-
-//     this.$emit(
-//       "prod-info",
-//       this.sku,
-//       this.name,
-//       this.price + " $",
-//       this.type,
-//       this.value
-//     );
-//   },
-// },
 </script>
 
 <style>
@@ -164,7 +105,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-bottom: 20px; */
   margin: 1rem;
   padding-right: 4rem;
 }
@@ -174,11 +114,11 @@ hr {
 }
 .btns {
   width: 10rem;
-  /* height: 10rem; */
   display: flex;
   justify-content: space-between;
 }
 button {
+  margin-left: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.5rem;
@@ -228,5 +168,10 @@ button:hover {
   margin-top: 3rem;
   margin-left: 8rem;
   width: 25rem;
+}
+.box-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 6rem;
 }
 </style>

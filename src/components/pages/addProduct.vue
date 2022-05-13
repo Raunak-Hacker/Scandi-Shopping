@@ -1,8 +1,8 @@
 <template>
-  <the-header @add-click="addClick" @save-click="onSubmit" :heading="this.heading" />
+  <!-- <the-header @save-click="onSubmit" :heading="this.heading" /> -->
   <section class="whol">
     <div class="prod-form">
-      <form id="product-form" @submit.prevent="onSubmit">
+      <form id="product-form" @submit.prevent="onSubmit" ref="form">
         <div class="form-group">
           <label for="sku">SKU </label>
           <input type="text" class="form-control" id="sku" v-model.trim="sku" />
@@ -88,7 +88,7 @@
           </div>
           <h4>Please provide book's weight in KG</h4>
         </div>
-        <input type="submit" id="submit-form" style="display: none" />
+        <slot />
       </form>
     </div>
     <dyn-form></dyn-form>
@@ -96,9 +96,8 @@
 </template>
 
 <script>
-// import DynForm from "@/components/dynForm.vue";
 export default {
-  // components: { DynForm },
+  // props: ['sfunction'],
   data() {
     return {
       sku: null,
@@ -115,7 +114,7 @@ export default {
       optSel: "",
       type: null,
       value: null,
-      heading: "Product Add"
+      heading: "Product Add",
     };
   },
   methods: {
@@ -139,6 +138,15 @@ export default {
         this.type,
         this.value
       );
+      // this.$route.push({
+      //   params: {
+      //     sku: this.sku,
+      //     name: this.name,
+      //     price: this.price + " $",
+      //     type: this.type,
+      //     value: this.value,
+      //   },
+      // });
     },
   },
 };
