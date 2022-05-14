@@ -89,6 +89,36 @@ export default {
       this.mySelections = [];
     },
   },
+  created () {
+    setTimeout(() => {
+      this.boxes = [
+        {
+          id: 1,
+          sku: "NameTest000",
+          name: "NameTest000",
+          price: "10.00",
+          type: "Size: ",
+          value: "10 MB",
+        },
+        {
+          id: 2,
+          sku: "NameTest001",
+          name: "NameTest001",
+          price: "20.00",
+          type: "Dimensions: ",
+          value: "10x10x10",
+        },
+        {
+          id: 3,
+          sku: "NameTest002",
+          name: "NameTest002",
+          price: "30.00",
+          type: "Weight: ",
+          value: "10KG",
+        },
+      ];
+    }, 1000);
+  }
 };
 </script>
 
