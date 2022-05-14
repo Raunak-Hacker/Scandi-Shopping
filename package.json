@@ -2,6 +2,10 @@
   "name": "shopping",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=0.10.3 <18",
+    "npm": "~1.0.20"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
