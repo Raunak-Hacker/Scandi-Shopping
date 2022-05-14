@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 
 import App from "./App.vue";
-import AddProduct from "./components/pages/AddProduct.vue";
+import AddProduct from "./components/pages/addProduct.vue";
 import TheHeader from "./components/layouts/TheHeader.vue";
 import TheFooter from "./components/layouts/TheFooter.vue";
 import ProductBox from "./components/products/ProductBox.vue";
