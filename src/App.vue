@@ -2,7 +2,9 @@
   <the-header :heading="heading">
     <button ref="submit" form="product_form" v-if="state">Save</button>
     <button @click="addClick" v-else>ADD</button>
-    <button type="reset" form="product_form" v-if="state" @click="cancelClick">Cancel</button>
+    <button type="reset" form="product_form" v-if="state" @click="cancelClick">
+      Cancel
+    </button>
     <button @click="multiBoxDelete" id="delete-product-btn" v-else>
       MASS DELETE
     </button>
@@ -32,16 +34,7 @@
 export default {
   data() {
     return {
-      boxes: [
-        {
-          id: 1,
-          sku: "DVD-1",
-          name: "The Shawshank Redemption",
-          price: "19.99 $",
-          type: "Size: ",
-          value: "800 MB",
-        },
-      ],
+      boxes: [],
       mySelections: [],
       onAddProducts: false,
       state: false,
@@ -54,7 +47,7 @@ export default {
       this.onAddProducts = true;
       this.heading = "Add Product";
     },
-    cancelClick () {
+    cancelClick() {
       this.state = false;
       this.onAddProducts = false;
       this.heading = "Product List";
