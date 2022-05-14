@@ -3,8 +3,6 @@
     <input
       type="checkbox"
       class="delete-checkbox"
-      name="check"
-      id="check"
       @click="check"
     />
     <div class="box-info">

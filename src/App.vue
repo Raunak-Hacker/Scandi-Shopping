@@ -1,10 +1,10 @@
 <template>
   <the-header :heading="heading">
     <button ref="submit" form="product_form" v-if="state">Save</button>
-    <button @click="addClick" v-else>add</button>
+    <button @click="addClick" v-else>ADD</button>
     <button type="reset" form="product_form" v-if="state" @click="cancelClick">Cancel</button>
     <button @click="multiBoxDelete" id="delete-product-btn" v-else>
-      Mass Delete
+      MASS DELETE
     </button>
   </the-header>
   <main>
