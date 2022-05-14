@@ -36,9 +36,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
 .delete-checkbox {
   display: inline-box;
   margin: 1rem;

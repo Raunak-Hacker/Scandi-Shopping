@@ -1,17 +1,17 @@
 <template>
   <the-header :heading="heading">
-    <button ref="submit" form="product-form" @click="saveClick" v-if="state">
-      Save
-    </button>
+    <button ref="submit" form="product_form" v-if="state">Save</button>
     <button @click="addClick" v-else>add</button>
-    <button type="reset" form="product-form" v-if="state">Cancel</button>
-    <button @click="multiBoxDelete" v-else>Mass Delete</button>
+    <button type="reset" form="product_form" v-if="state" @click="cancelClick">Cancel</button>
+    <button @click="multiBoxDelete" id="delete-product-btn" v-else>
+      Mass Delete
+    </button>
   </the-header>
   <main>
-    <add-product @prod-info="getInfo" v-if="onAddProducts"> </add-product>
-    <product-list v-else>
+    <add-product @product-info="getInfo" v-if="onAddProducts" />
+    <section id="product-list" v-else>
       <div class="box-grid">
-        <dyn-prod
+        <product-box
           v-for="box in boxes"
           :key="box.id"
           :id="box.id"
@@ -23,15 +23,25 @@
           @check="check(box)"
         />
       </div>
-    </product-list>
+    </section>
   </main>
+  <the-footer />
 </template>
 
 <script>
 export default {
   data() {
     return {
-      boxes: [],
+      boxes: [
+        {
+          id: 1,
+          sku: "DVD-1",
+          name: "The Shawshank Redemption",
+          price: "19.99 $",
+          type: "Size: ",
+          value: "800 MB",
+        },
+      ],
       mySelections: [],
       onAddProducts: false,
       state: false,
@@ -44,11 +54,10 @@ export default {
       this.onAddProducts = true;
       this.heading = "Add Product";
     },
-    saveClick() {
+    cancelClick () {
       this.state = false;
-      console.log("save");
+      this.onAddProducts = false;
       this.heading = "Product List";
-      this.$refs.submit.click();
     },
     getInfo(sku, name, price, type, value) {
       const box = {
@@ -59,8 +68,18 @@ export default {
         type: type,
         value: value,
       };
-      this.boxes.push(box);
-      this.onAddProducts = !this.onAddProducts;
+      if (
+        box.sku != null &&
+        box.name != null &&
+        box.price != null &&
+        box.type != null &&
+        box.value != null
+      ) {
+        this.state = false;
+        this.onAddProducts = false;
+        this.heading = "Product List";
+        this.boxes.unshift(box);
+      }
     },
     check(box) {
       if (
@@ -75,7 +94,6 @@ export default {
     multiBoxDelete() {
       this.boxes = this.boxes.filter((a) => !this.mySelections.includes(a));
       this.mySelections = [];
-      console.log(this.boxes);
     },
   },
 };
@@ -87,36 +105,9 @@ export default {
   padding: 0;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-.whole {
-  display: none;
-}
 </style>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-.whole {
-  display: flex;
-  flex-direction: column;
-}
-.heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem;
-  padding-right: 4rem;
-}
-hr {
-  width: 95%;
-  margin: auto;
-}
-.btns {
-  width: 10rem;
-  display: flex;
-  justify-content: space-between;
-}
 button {
   margin-left: 1rem;
   padding-left: 1rem;
@@ -133,41 +124,11 @@ button:hover {
   background: #000;
   color: #fff;
 }
-.form-group {
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-}
-.form-group label {
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-.form-group input {
-  width: 10rem;
-  height: 2rem;
+#delete-product-btn {
+  background: red;
+  color: white;
   border-radius: 15px;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-weight: bold;
-}
-
-.form-group select {
-  width: 12rem;
-  height: 2rem;
-  border-radius: 15px;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-weight: bold;
-}
-.prod-form {
-  display: flex;
-  flex-direction: column;
-  align-items: right;
-  justify-content: right;
-  margin-top: 3rem;
-  margin-left: 8rem;
-  width: 25rem;
+  cursor: pointer;
 }
 .box-grid {
   display: flex;

@@ -1,15 +1,21 @@
 <template>
-  <!-- <the-header @save-click="onSubmit" :heading="this.heading" /> -->
-  <section class="whol">
+  <section class="whole">
     <div class="prod-form">
-      <form id="product-form" @submit.prevent="onSubmit" ref="form">
+      <form id="product_form" @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="sku">SKU </label>
-          <input type="text" class="form-control" id="sku" v-model.trim="sku" />
+          <input
+            required
+            type="text"
+            class="form-control"
+            id="sku"
+            v-model.trim="sku"
+          />
         </div>
         <div class="form-group">
           <label for="name">Name </label>
           <input
+            required
             type="text"
             class="form-control"
             id="name"
@@ -19,6 +25,7 @@
         <div class="form-group">
           <label for="price">Price ($) </label>
           <input
+            required
             type="number"
             class="form-control"
             id="price"
@@ -27,7 +34,12 @@
         </div>
         <div class="form-group">
           <label for="typeSwitcher">Type Switcher </label>
-          <select name="products" id="productType" v-model.trim="optSel">
+          <select
+            name="products"
+            id="productType"
+            v-model.trim="optSel"
+            required
+          >
             <option style="color: gray" value="" disabled>Type Switcher</option>
             <option value="DVD" id="DVD">DVD</option>
             <option value="Furniture" id="Furniture">Furniture</option>
@@ -38,6 +50,7 @@
           <div class="form-group">
             <label for="size">Size (MB) </label>
             <input
+              required
               type="number"
               class="form-control"
               id="size"
@@ -46,10 +59,11 @@
           </div>
           <h4>Please provide disc space in MB</h4>
         </div>
-        <div class="opt" v-if="optSel == 'Furniture'">
+        <div class="opt" v-else-if="optSel == 'Furniture'">
           <div class="form-group">
             <label for="height">Height (CM) </label>
             <input
+              required
               type="number"
               class="form-control"
               id="height"
@@ -59,6 +73,7 @@
           <div class="form-group">
             <label for="width">Width (CM) </label>
             <input
+              required
               type="number"
               class="form-control"
               id="width"
@@ -68,6 +83,7 @@
           <div class="form-group">
             <label for="Length">Length (CM) </label>
             <input
+              required
               type="number"
               class="form-control"
               id="length"
@@ -76,10 +92,11 @@
           </div>
           <h4>Please provide furniture dimensions in HxWxL(CM) format</h4>
         </div>
-        <div class="opt" v-if="optSel === 'Book'">
+        <div class="opt" v-else-if="optSel === 'Book'">
           <div class="form-group">
             <label for="weight">Weight (KG) </label>
             <input
+              required
               type="number"
               class="form-control"
               id="weight"
@@ -88,7 +105,6 @@
           </div>
           <h4>Please provide book's weight in KG</h4>
         </div>
-        <slot />
       </form>
     </div>
     <dyn-form></dyn-form>
@@ -97,7 +113,7 @@
 
 <script>
 export default {
-  // props: ['sfunction'],
+  emits: ["product-info"],
   data() {
     return {
       sku: null,
@@ -114,12 +130,10 @@ export default {
       optSel: "",
       type: null,
       value: null,
-      heading: "Product Add",
     };
   },
   methods: {
     onSubmit() {
-      console.log(this.optsel);
       if (this.optSel === "DVD") {
         this.type = "Size: ";
         this.value = this.size + " MB";
@@ -131,22 +145,13 @@ export default {
         this.value = this.weight + "KG";
       }
       this.$emit(
-        "prod-info",
+        "product-info",
         this.sku,
         this.name,
         this.price + " $",
         this.type,
         this.value
       );
-      // this.$route.push({
-      //   params: {
-      //     sku: this.sku,
-      //     name: this.name,
-      //     price: this.price + " $",
-      //     type: this.type,
-      //     value: this.value,
-      //   },
-      // });
     },
   },
 };
@@ -157,7 +162,7 @@ export default {
   margin: 0;
   padding: 0;
 }
-.whol {
+.whole {
   display: flex;
   flex-direction: column;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="head-div">
+  <header>
     <div class="heading">
       <h1>{{ heading }}</h1>
       <div class="btns">
@@ -7,7 +7,7 @@
       </div>
     </div>
     <hr />
-  </div>
+  </header>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style scoped>
-.head-div {
+header {
   width: 80vw;
   margin: auto;
 }
@@ -38,24 +38,7 @@ hr {
 }
 .btns {
   width: fit-content;
-  /* height: 10rem; */
   display: flex;
   justify-content: space-around;
 }
-/* button {
-  margin-left: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: none;
-  background: #f1f1f1;
-  color: #000;
-  border-radius: 15px;
-  cursor: pointer;
-}
-button:hover {
-  background: #000;
-  color: #fff;
-} */
 </style>
